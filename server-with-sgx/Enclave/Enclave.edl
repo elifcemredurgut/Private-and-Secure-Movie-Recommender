@@ -1,0 +1,24 @@
+enclave {
+    
+    /* Import ECALL/OCALL from sub-directory EDLs.
+     *  [from]: specifies the location of EDL file. 
+     *  [import]: specifies the functions to import, 
+     *  [*]: implies to import all functions.
+     */
+    
+    trusted {
+        public void ecall_init([in, string]const char* indices);
+    };
+
+    /* 
+     * ocall_print_string - invokes OCALL to display string buffer inside the enclave.
+     *  [in]: copy the string buffer to App outside.
+     *  [string]: specifies 'str' is a NULL terminated buffer.
+     */
+    untrusted {
+        void ocall_print_string([in, string] const char *str);
+        void ocall_receive([out, size=idLength] char *id, size_t idLength, [out, size=bufLength] char *buf, size_t bufLength);
+        void ocall_send([in, string] const char *id, [in, string] const char *buffer);
+    };
+
+};
